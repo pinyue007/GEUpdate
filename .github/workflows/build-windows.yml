@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GEUpdate
-          path: GEUpdate.exe
+          path: src/GEUpdate.exe
