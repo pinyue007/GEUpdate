@@ -12,9 +12,6 @@ import (
 )
 
 func main() {
-	a := "1.10"
-	b := "1.2"
-	c := strings.Compare(a, b)
 	// 参数解析
 	path := flag.String("path", "", "安装包下载地址")
 	pkgname := flag.String("pkgname", "", "安装包名")
@@ -53,9 +50,7 @@ func main() {
 	names := strings.SplitN(name, "-", 2)
 	index := strings.LastIndex(names[1], ".")
 	newVersion := names[1][:index]
-	// newVersions := strings.Split(newVersion, "-")
-	// versions := strings.Split(*version, "-")
-	result := strings.Compare(newVersion, *version)
+	result := CompareVersion(newVersion, *version)
 	if result <= 0 {
 		log.Fatal("No new version found")
 		return

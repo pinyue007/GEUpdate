@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -117,4 +118,50 @@ func CheckFileMd5(fileName, fileMd5 string) bool {
 	fmt.Println("文件的 MD5 哈希值:", hashString)
 
 	return strings.Compare(hashString, fileMd5) == 0
+}
+
+func CompareVersion(version1, version2 string) int {
+	v1s := strings.Split(version1, "-")
+	v2s := strings.Split(version2, "-")
+
+	v1 := strings.Split(v1s[0], ".")
+	v2 := strings.Split(v2s[0], ".")
+
+	// 将字符串版本号转换为整数数组
+	v1Int := make([]int, len(v1))
+	v2Int := make([]int, len(v2))
+
+	for i := 0; i < len(v1); i++ {
+		v1Int[i], _ = strconv.Atoi(v1[i])
+	}
+	for i := 0; i < len(v2); i++ {
+		v2Int[i], _ = strconv.Atoi(v2[i])
+	}
+
+	// 比较版本号
+	for i := 0; i < len(v1Int) && i < len(v2Int); i++ {
+		if v1Int[i] < v2Int[i] {
+			return -1
+		} else if v1Int[i] > v2Int[i] {
+			return 1
+		}
+	}
+
+	// 如果版本号长度不同，长度较长的版本号大
+	if len(v1Int) < len(v2Int) {
+		return -1
+	} else if len(v1Int) > len(v2Int) {
+		return 1
+	}
+
+	// 比较-r
+	v1r, _ := strconv.Atoi(v1s[1])
+	v2r, _ := strconv.Atoi(v2s[1])
+	if v1r < v2r {
+		return -1
+	} else if v1r > v2r {
+		return 1
+	}
+
+	return 0
 }
