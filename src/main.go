@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -13,7 +12,9 @@ import (
 )
 
 func main() {
-	fmt.Println(os.Getppid())
+	a := "1.10"
+	b := "1.2"
+	c := strings.Compare(a, b)
 	// 参数解析
 	path := flag.String("path", "", "安装包下载地址")
 	pkgname := flag.String("pkgname", "", "安装包名")
@@ -78,7 +79,7 @@ func main() {
 	ppid := uint32(syscall.Getppid())
 	fmt.Println("parent process ID:", ppid)
 
-	cmd := exec.Command("taskkill", "/F", "/T", "/PID", fmt.Sprintf("%d", ppid))
+	cmd := exec.Command("taskkill", "/PID", fmt.Sprintf("%d", ppid))
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println("发送退出信号失败:", err)
