@@ -1,0 +1,33 @@
+name: Build Windows Script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 下载和安装 Go
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.17'
+          architecture: x64
+
+      # 执行构建和测试
+      - name: Build and test
+        run: |
+          go build -o GEUpdate.exe
+
+      # 上传构建结果
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: GEUpdate
+          path: GEUpdate.exe
