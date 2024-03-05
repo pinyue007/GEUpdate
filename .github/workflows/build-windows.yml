@@ -23,6 +23,7 @@ jobs:
       # 执行构建和测试
       - name: Build and test
         run: |
+          cd src
           go build -o GEUpdate.exe
 
       # 上传构建结果
